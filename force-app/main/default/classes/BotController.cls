@@ -31,6 +31,7 @@ public with sharing class BotController {
             
             if (session != null) {
                 System.debug('Session :' + session);
+                System.debug('Session :' + session);
                 String nextCommand = session.get('nextCommand');
                 if (nextCommand != null) {
                     Type t = Type.forName('', nextCommand);
