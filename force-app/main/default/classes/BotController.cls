@@ -17,6 +17,7 @@ public with sharing class BotController {
     static {
         List<Bot_Command__c> commands = [SELECT apex_class__c, pattern__c FROM Bot_Command__c WHERE Active__c = True ORDER BY Name];
         System.debug(commands);
+        System.debug(commands);
         List<HandlerMapping> mappings = new List<HandlerMapping>();
         for (Bot_Command__c command : commands) {
 			mappings.add(new HandlerMapping(command.apex_class__c, command.pattern__c));
