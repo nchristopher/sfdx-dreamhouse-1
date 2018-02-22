@@ -8,7 +8,8 @@ node {
 
     def HUB_ORG=env.HUB_ORG
     //def SFDC_HOST = env.SFDC_HOST_DH
-    def JWT_KEY_CRED_ID = env.JWT_KEY_FILE
+    //def JWT_KEY_CRED_ID = env.JWT_KEY_FILE
+    def JWT_KEY_CRED_ID = 'test'
     def CONNECTED_APP_CONSUMER_KEY=env.CONNECTED_APP_CONSUMER_KEY
 
 
@@ -17,7 +18,7 @@ node {
         checkout scm
     }
 
-   /* withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+    withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Create Scratch Org') {
 
             rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername "
@@ -56,5 +57,8 @@ node {
             }
         }
 
-    }*/
+        stage('collect results') {
+            junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
+        }
+    }
 }
