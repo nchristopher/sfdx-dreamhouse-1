@@ -6,11 +6,11 @@ node {
     def RUN_ARTIFACT_DIR="tests/${BUILD_NUMBER}"
     def SFDC_USERNAME
 
-    //def HUB_ORG=env.HUB_ORG
+    def HUB_ORG=env.HUB_ORG
     //def SFDC_HOST = env.SFDC_HOST_DH
     //def JWT_KEY_CRED_ID = env.JWT_KEY_FILE
     def JWT_KEY_CRED_ID = 'JWT_KEY_FILE'
-    //def CONNECTED_APP_CONSUMER_KEY=env.CONNECTED_APP_CONSUMER_KEY
+    def CONNECTED_APP_CONSUMER_KEY=env.CONNECTED_APP_CONSUMER_KEY
 
 
     stage('checkout source') {
@@ -20,7 +20,12 @@ node {
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Create Scratch Org') {
+            def env = System.getenv()
+            //Print all the environment variables.
 
+            env.each{
+                println it
+            } 
             rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername "
             if (rc != 0) { error 'hub org authorization failed' }
 
