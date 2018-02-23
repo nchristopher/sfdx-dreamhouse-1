@@ -23,9 +23,6 @@ node {
                         string(credentialsId: CONNECTED_APP_CONSUMER_KEY, variable: 'CONNECTED_APP_CONSUMER_KEY')]) {
         stage('Create Scratch Org') {
 
-            env.each{
-                println ${it}
-            } 
             rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ${jwt_key_file} --setdefaultdevhubusername "
             if (rc != 0) { error 'hub org authorization failed' }
 
