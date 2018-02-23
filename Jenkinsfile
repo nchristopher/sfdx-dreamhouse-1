@@ -20,8 +20,6 @@ node {
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Create Scratch Org') {
-            def env = System.getenv()
-            //Print all the environment variables.
 
             env.each{
                 println it
