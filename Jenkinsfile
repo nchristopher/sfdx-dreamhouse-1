@@ -20,7 +20,7 @@ node {
 
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file'),
                         string(credentialsId: HUB_ORG, variable: 'HUB_ORG'),
-                        string(credentialsId: CONNECTED_APP_CONSUMER_KEY, variable: 'CONNECTED_APP_CONSUMER_KEY'))]) {
+                        string(credentialsId: CONNECTED_APP_CONSUMER_KEY, variable: 'CONNECTED_APP_CONSUMER_KEY')]) {
         stage('Create Scratch Org') {
 
             env.each{
