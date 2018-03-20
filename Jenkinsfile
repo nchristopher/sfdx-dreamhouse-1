@@ -42,7 +42,7 @@ node {
             //if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.result.username
             println('Deleting ORG :' + SFDC_USERNAME)
-            delmsg = sh returnStatus: true, script: "sfdx force:org:delete -u ${SFDC_USERNAME}"
+            rc = sh returnStatus: true, script: "sfdx force:org:delete -u ${SFDC_USERNAME}"
             robj = null
 
         }
