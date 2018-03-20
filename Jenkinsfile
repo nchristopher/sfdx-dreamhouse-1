@@ -28,20 +28,22 @@ node {
 
             // need to pull out assigned username
             rmsg = sh returnStdout: true, script: "sfdx force:org:create --definitionfile config/project-scratch-def.json --json --setdefaultusername"
-            printf rmsg
             println('Hello from a Job DSL script!')
-            println(rmsg)
+            println('rmsg:' + rmsg)
             def beginIndex = rmsg.indexOf('{')
             def endIndex = rmsg.indexOf('}')
-            println(beginIndex)
-            println(endIndex)
+            println('beginIndex: ' + beginIndex)
+            println('endIndex: ' + endIndex)
             def jsobSubstring = rmsg.substring(beginIndex)
-            println(jsobSubstring)
+            println('jsobSubstring: ' + jsobSubstring)
             def jsonSlurper = new JsonSlurperClassic()
             def robj = jsonSlurper.parseText(jsobSubstring)
-            printf robj
+            println ('robj: ' + robj)
             if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.username
+            println('Deleting ORG ${SFDC_USERNAME}')
+            delmsg = sh returnStdout: true, script: "sfdx force:org:delete -u ${SFDC_USERNAME}"
+            println('delmsg :' + delmsg)
             robj = null
 
         }
