@@ -42,12 +42,34 @@ node {
             //if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.result.username
             println('Deleting ORG :' + SFDC_USERNAME)
-            rc = sh returnStatus: true, script: "sfdx force:org:delete -u ${SFDC_USERNAME}"
+            rc = sh returnStatus: true, script: "sfdx force:org:delete -targetusername ${SFDC_USERNAME} --noprompt"
             robj = null
 
         }
+        
+        /*stage('Push To Test Org') {
+            rc = sh returnStatus: true, script: "sfdx force:source:push --targetusername ${SFDC_USERNAME}"
+            if (rc != 0) {
+                error 'push failed'
+            }
+            // assign permset
+            rc = sh returnStatus: true, script: "sfdx force:user:permset:assign --targetusername ${SFDC_USERNAME} --permsetname DreamHouse"
+            if (rc != 0) {
+                error 'permset:assign failed'
+            }
+        }*/
+        
+        /*stage('Delete Org') {
+            sh "mkdir -p ${RUN_ARTIFACT_DIR}"
+            timeout(time: 120, unit: 'SECONDS') {
+                rc = sh returnStatus: true, script: "sfdx force:org:delete -targetusername ${SFDC_USERNAME} --noprompt"
+                if (rc != 0) {
+                    error 'apex test run failed'
+                }
+            }
+        }*/
 
-        stage('Push To Test Org') {
+        /*stage('Push To Test Org') {
             rc = sh returnStatus: true, script: "sfdx force:source:push --targetusername ${SFDC_USERNAME}"
             if (rc != 0) {
                 error 'push failed'
@@ -71,6 +93,6 @@ node {
 
         stage('collect results') {
             junit keepLongStdio: true, testResults: 'tests/**/*-junit.xml'
-        }
+        }*/
     }
 }
