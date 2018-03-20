@@ -39,8 +39,8 @@ node {
             def jsonSlurper = new JsonSlurperClassic()
             def robj = jsonSlurper.parseText(jsobSubstring)
             println ('robj: ' + robj)
-            if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
-            SFDC_USERNAME=robj.username
+            //if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
+            SFDC_USERNAME=robj.result.username
             println('Deleting ORG ${SFDC_USERNAME}')
             delmsg = sh returnStdout: true, script: "sfdx force:org:delete -u ${SFDC_USERNAME}"
             println('delmsg :' + delmsg)
