@@ -36,8 +36,8 @@ node {
             println('endIndex: ' + endIndex)
             def jsobSubstring = rmsg.substring(beginIndex)
             println('jsobSubstring: ' + jsobSubstring)
-            def jsonSlurper = new JsonSlurperClassic()
-            def robj = jsonSlurper.parseText(jsobSubstring)
+            def jsonSlurperClass = new JsonSlurperClassic()
+            def robj = jsonSlurperClass.parseText(jsobSubstring)
             println ('robj: ' + robj)
             //if (robj.status != "ok") { error 'org creation failed: ' + robj.message }
             SFDC_USERNAME=robj.result.username
